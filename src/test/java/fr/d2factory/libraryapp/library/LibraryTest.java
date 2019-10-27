@@ -23,17 +23,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * The type Library test.
+ */
 public class LibraryTest {
     private Library library ;
     private BookRepository bookRepository;
     private MemberRepository memberRepository;
 
+    /**
+     * Sets .
+     *
+     * @throws IOException the iO exception
+     */
     @Before
     public void setup() throws IOException {
-        //TODO instantiate the library and the repository
-
-        //TODO add some test books (use BookRepository#addBooks)
-        //TODO to help you a file called books.json is available in src/test/resources
         bookRepository = new BookRepository();
         memberRepository=new MemberRepository();
         library = new LibraryImplement(bookRepository,memberRepository);
@@ -52,6 +56,9 @@ public class LibraryTest {
 
     }
 
+    /**
+     * Member _ can _ borrow _ a _ book _ if _ book _ is _ available.
+     */
     @Test
     public void member_can_borrow_a_book_if_book_is_available(){
        Student student = new Student();
@@ -70,6 +77,9 @@ public class LibraryTest {
 
     }
 
+    /**
+     * Borrowed _ book _ is _ no _ longer _ available.
+     */
     @Test(expected = BookNotFoundException.class)
     public void borrowed_book_is_no_longer_available(){
         Student student = new Student();
@@ -83,6 +93,9 @@ public class LibraryTest {
 
     }
 
+    /**
+     * Residents _ are _ taxed _ 10 cents _ for _ each _ day _ they _ keep _ a _ book.
+     */
     @Test
     public void residents_are_taxed_10cents_for_each_day_they_keep_a_book(){
         Resident resident = new Resident();
@@ -95,6 +108,9 @@ public class LibraryTest {
         Assert.assertEquals(resident.getWallet(), result, 0);
     }
 
+    /**
+     * Students _ pay _ 10 _ cents _ the _ first _ 30 days.
+     */
     @Test
     public void students_pay_10_cents_the_first_30days(){
         Student student = new Student();
@@ -108,6 +124,9 @@ public class LibraryTest {
         Assert.assertEquals(student.getWallet(), result, 0);
     }
 
+    /**
+     * Students _ in _ 1 st _ year _ are _ not _ taxed _ for _ the _ first _ 15 days.
+     */
     @Test
     public void students_in_1st_year_are_not_taxed_for_the_first_15days(){
         Student student = new Student();
@@ -126,6 +145,9 @@ public class LibraryTest {
         }
         Assert.assertEquals(student.getWallet(), result, 0);   }
 
+    /**
+     * Students _ pay _ 15 cents _ for _ each _ day _ they _ keep _ a _ book _ after _ the _ initial _ 30 days.
+     */
     @Test
     public void students_pay_15cents_for_each_day_they_keep_a_book_after_the_initial_30days(){
         Student student = new Student();
@@ -139,6 +161,9 @@ public class LibraryTest {
         Assert.assertEquals(student.getWallet(), result, 0);
     }
 
+    /**
+     * Residents _ pay _ 20 cents _ for _ each _ day _ they _ keep _ a _ book _ after _ the _ initial _ 60 days.
+     */
     @Test
     public void residents_pay_20cents_for_each_day_they_keep_a_book_after_the_initial_60days(){
         Resident resident = new Resident();
@@ -150,8 +175,16 @@ public class LibraryTest {
         Float result = 100 -  60* 0.10f-(days-60)*0.20f;
         Assert.assertEquals(resident.getWallet(), result, 0);
     }
+
+    /**
+     * The Exception rule.
+     */
     @Rule
     public ExpectedException exceptionRule = ExpectedException.none();
+
+    /**
+     * Members _ cannot _ borrow _ book _ if _ they _ have _ late _ books.
+     */
     @Test(expected =HasLateBooksException.class )
     public void members_cannot_borrow_book_if_they_have_late_books(){
 
